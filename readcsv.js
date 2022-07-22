@@ -1,5 +1,5 @@
 const readFile = document.querySelector('#dm_csvreader');
-readFile.addEventListener('change', getData, false);
+readFile.addEventListener('change', getData, false);            //listens to new data being chosen in the formfile
 
 function getData() {
   if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
@@ -14,46 +14,29 @@ function getData() {
   } else {
         let file = readFile.files[0];
         let reader = new FileReader();
-        reader.onload = readText;
+        reader.onload = readData;                            
         reader.readAsText(file);
         
-        function readText() {
-            let keywordsArray = reader.result.split('\r\n');
-            let smallarray = [];
+        function readData() {                                       //reads the data
+            let keywordsArray = reader.result.split('\r\n');        //splits the data into more human readable data
+            let tmpArray = [];                                      //creates a temporary array to work on
             for (let i = 0; i < keywordsArray.length; i++) {
-                smallarray.push(keywordsArray[i].split(";"));
+                tmpArray.push(keywordsArray[i].split(";"));
             }
-            createTable(smallarray);
-            createCounting(smallarray);
-        }
-
-        
-    }
-}
-
-function createTable(csv) {
-    var body = document.querySelector('body');
-    var table = document.createElement('table');
-    table.cellSpacing = 0;
-    body.appendChild(table);
-    for (let row of csv) {
-        let th = table.insertRow();
-        for (let col of row) {
-          let td = th.insertCell();
-          td.innerHTML = col;
+            data = createObject(tmpArray);
+            createTable(data);
         }
     }
 }
 
-function createCounting(csv) {
+function createObject(data) {                                        //transforms data into an Object for better accessability
     let keyword = '';
     let keywordlist = {};
-    let bigkeywordlist = {};
-    for (let i = 1; i < csv.length; i++) {
+    for (let i = 1; i < data.length; i++) {
         indexList = [];
-        for (let j = 0; j < csv[i].length; j++) {
-            if (keyword != csv[i][j]) {
-                keyword = csv[i][j];
+        for (let j = 0; j < data[i].length; j++) {
+            if (keyword != data[i][j]) {
+                keyword = data[i][j];
                 if (keyword != '') {
                     indexList.push(j+1);
                 }
@@ -65,5 +48,22 @@ function createCounting(csv) {
             keywordlist[keyword] = indexList;
         }
     }
+    delete keywordlist[""];                                            //deletes the "" key/value pair
     console.log(keywordlist);
+    return (keywordlist);
+}
+
+
+function createTable(data) {
+    let body = document.querySelector('body');
+    let table = document.createElement('table');
+    table.cellSpacing = 0;
+    body.appendChild(table);
+    for (const [key, value] of Object.entries(data)) { 
+        let row = table.insertRow(-1);
+        let cell1 = row.insertCell(0); 
+        let cell2 = row.insertCell(1);
+        cell1.textContent = key;
+        cell2.textContent = value;
+    }
 }
