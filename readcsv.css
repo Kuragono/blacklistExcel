@@ -6,7 +6,7 @@ body {
     min-height: 100vh;
 }
 
-input {
+#dm_csvreader {
     color: white;
     padding-bottom: 10px;
 }
@@ -32,3 +32,15 @@ td {
     background-color: gray;
     color: white;
   } */
+
+  #definelogo {
+      width: 80px;
+  }
+
+  button {
+      color: white;
+      background-color: #535353;
+      border: white 1px solid;
+      border-radius: 5px;
+      font-size: 15px;
+  }
