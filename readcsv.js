@@ -1,4 +1,13 @@
 const readFile = document.querySelector('#dm_csvreader');
+const SELECTOR1 = `#dm_conative_artikel`;
+const URL1 = "https://cc.conative.de/#/adslots/1493/positioning/3155";
+const SELECTOR2 = `#dm_conative_artikel_mobile`;
+const URL2 = "https://cc.conative.de/#/adslots/1493/positioning/3156";
+const SELECTOR3 = `#dm_conative_beipack`;
+const URL3 = "https://cc.conative.de/#/adslots/1493/positioning/3157";
+const SELECTOR4 = `#dm_conative_beipack_mobile`;
+const URL4 = "https://cc.conative.de/#/adslots/1493/positioning/3158";
+
 readFile.addEventListener('change', getData, false);            //listens to new data being chosen in the formfile
 
 function getData() {
@@ -23,7 +32,7 @@ function getData() {
             for (let i = 0; i < keywordsArray.length; i++) {
                 tmpArray.push(keywordsArray[i].split(";"));
             }
-            data = createObject(tmpArray);
+            globalThis.data = createObject(tmpArray);
             createTable(data);
         }
     }
@@ -49,7 +58,6 @@ function createObject(data) {                                        //transform
         }
     }
     delete keywordlist[""];                                            //deletes the "" key/value pair
-    console.log(keywordlist);
     return (keywordlist);
 }
 
@@ -67,3 +75,69 @@ function createTable(data) {
         cell2.textContent = value;
     }
 }
+
+function start(data, selector, url) {
+    console.log(data);
+    console.log(selector);
+    function objToString(obj) {                                             //transform data into a string
+        let str = "";
+      
+        for (const [p, val] of Object.entries(obj)) {
+          str += `'${p}': [${val}],\n\t`;
+        }
+
+        return str;
+    }
+
+    let str = objToString(data);
+    var jsSelectorText = `
+    var selector = ${selector};
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    var keywords = {${str}};
+    var keywordFound = false;
+  
+    if (window.dm_ccc_kwl && window.dm_ccc_kwl.length) {
+        for (var i = 0; i <= window.dm_ccc_kwl.length; i++) {
+            if (keywords.hasOwnProperty(window.dm_ccc_kwl[i])) {
+                console.log(keywords[window.dm_ccc_kwl[i]], month);
+                console.log(keywords[window.dm_ccc_kwl[i]].indexOf(month));
+                if (keywords[window.dm_ccc_kwl[i]].indexOf(month) > -1) {
+                    console.log(keywords[window.dm_ccc_kwl[i]].indexOf(month)); 
+                    keywordFound = true;
+                    break;
+                }
+            }
+        }
+    }
+  
+    if (!keywordFound) {
+        if (document.querySelector(selector)) {
+            return document.querySelector(selector);
+        }
+        return false;
+    }`;
+
+    window.open(url, '_blank').focus();
+
+    //var jsSelector = document.querySelector("#adslot_admin_js_selector");
+  
+    //jsSelector.select();
+  
+    //document.execCommand("insertText", false, jsSelectorText);
+}
+
+
+
+document.getElementById('artikel').addEventListener('click', () => {
+    start(data, SELECTOR1, URL1);
+});
+document.getElementById('artikel_mobile').addEventListener('click', () => {
+    start(data, SELECTOR2, URL2);
+});
+document.getElementById('beipack').addEventListener('click', () => {
+    start(data, SELECTOR3, URL3);
+});
+document.getElementById('beipack_mobile').addEventListener('click', () => {
+    start(data, SELECTOR4, URL4);
+});
