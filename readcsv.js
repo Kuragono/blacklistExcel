@@ -90,11 +90,11 @@ function start(data, selector, url) {
     }
 
     let str = objToString(data);
-    var jsSelectorText = `
+    let jsSelectorText = `
     var selector = ${selector};
     var date = new Date();
     var month = date.getMonth() + 1;
-    var keywords = {${str}};
+    var keywords = {\n\t${str}};
     var keywordFound = false;
   
     if (window.dm_ccc_kwl && window.dm_ccc_kwl.length) {
@@ -118,13 +118,19 @@ function start(data, selector, url) {
         return false;
     }`;
 
-    window.open(url, '_blank').focus();
+    copyToClipboard(jsSelectorText);
 
-    //var jsSelector = document.querySelector("#adslot_admin_js_selector");
-  
-    //jsSelector.select();
-  
-    //document.execCommand("insertText", false, jsSelectorText);
+    window.open(url, '_blank').focus();
+}
+
+function copyToClipboard(text) {
+    let copyFrom = document.createElement("textarea");
+    copyFrom.textContent = text;
+    document.body.appendChild(copyFrom);
+    copyFrom.select();
+    document.execCommand('copy');
+    copyFrom.blur();
+    document.body.removeChild(copyFrom);
 }
 
 

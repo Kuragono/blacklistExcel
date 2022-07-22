@@ -69,24 +69,24 @@ function createTable(data) {
 }
 
 
-var keywords = {
-    erste_hilfe: [7, 8, 9],
-  };
+// var keywords = {
+//     erste_hilfe: [7, 8, 9],
+//   };
   
-  function objToString(obj) {
-    let str = "";
+//   function objToString(obj) {
+//     let str = "";
   
-    for (const [p, val] of Object.entries(obj)) {
-      str += `'${p}': [${val}],\n\t`;
-    }
+//     for (const [p, val] of Object.entries(obj)) {
+//       str += `'${p}': [${val}],\n\t`;
+//     }
   
-    return str;
-  }
+//     return str;
+//   }
   
-  var selector1 = `#dm_conative_artikel`;
-  var selector2 = `#dm_conative_artikel_mobile`;
-  var selector3 = `#dm_conative_beipack`;
-  var selector4 = `#dm_conative_beipack_mobile`;
+//   var selector1 = `#dm_conative_artikel`;
+//   var selector2 = `#dm_conative_artikel_mobile`;
+//   var selector3 = `#dm_conative_beipack`;
+//   var selector4 = `#dm_conative_beipack_mobile`;
   
   // if () {
   //     selector == selector1;
