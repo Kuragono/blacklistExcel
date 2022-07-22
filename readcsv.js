@@ -8,7 +8,7 @@ function getData() {
   }
 
   if (!readFile.files) {
-    console.log("This browser doesn't support the `files` property of file inputs.");
+    console.log("This browser doesn't support the chosen file.");
   } else if (!readFile.files[0]) {
     console.log("No file selected.");
   } else {
@@ -47,22 +47,23 @@ function createTable(csv) {
 
 function createCounting(csv) {
     let keyword = '';
-    let keywordlist = [];
-    let bigkeywordlist = [];
+    let keywordlist = {};
+    let bigkeywordlist = {};
     for (let i = 1; i < csv.length; i++) {
-        for (let j = 0; j < csv[i].length; j++)
+        indexList = [];
+        for (let j = 0; j < csv[i].length; j++) {
             if (keyword != csv[i][j]) {
                 keyword = csv[i][j];
                 if (keyword != '') {
-                    keywordlist.push(keyword);
-                    bigkeywordlist.push([keyword, [j]]);
+                    indexList.push(j+1);
                 }
             } else {
                 if (keyword != '') {
-                    bigkeywordlist.push(j);
+                    indexList.push(j+1);
                 }
-            } 
+            }
+            keywordlist[keyword] = indexList;
+        }
     }
     console.log(keywordlist);
-    console.log(bigkeywordlist);
 }
