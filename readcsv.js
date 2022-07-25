@@ -67,6 +67,11 @@ function createTable(data) {
     let table = document.createElement('table');
     table.cellSpacing = 0;
     body.appendChild(table);
+    let row = table.insertRow(-1);
+    let keywordCell = row.insertCell(0); 
+    let monthCell = row.insertCell(1);
+    keywordCell.textContent = "Keyword";
+    monthCell.textContent = "Monat";
     for (const [key, value] of Object.entries(data)) { 
         let row = table.insertRow(-1);
         let cell1 = row.insertCell(0); 
