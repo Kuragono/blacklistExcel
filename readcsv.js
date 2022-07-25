@@ -74,17 +74,17 @@ function createTable(data) {
     monthCell.textContent = "Monat";
     for (const [key, value] of Object.entries(data)) { 
         let row = table.insertRow(-1);
-        let cell1 = row.insertCell(0); 
-        let cell2 = row.insertCell(1);
-        cell1.textContent = key;
-        cell2.textContent = value;
+        let leftCell = row.insertCell(0); 
+        let rightCell = row.insertCell(1);
+        leftCell.textContent = key;
+        rightCell.textContent = value;
     }
 }
 
-function start(data, selector, url) {
+function clickOut(data, selector, url) {                                    //opens a new website depending on the button chosen
     console.log(data);
     console.log(selector);
-    function objToString(obj) {                                             //transform data into a string
+    function objToString(obj) {                                             //transforms data into a string
         let str = "";
       
         for (const [p, val] of Object.entries(obj)) {
@@ -138,17 +138,23 @@ function copyToClipboard(text) {
     document.body.removeChild(copyFrom);
 }
 
-
+function checkExistence(selector, url) {
+    if (typeof data === 'undefined') {
+        alert('Please select a dataset first!')
+    } else {
+        clickOut(data, selector, url);
+    }
+}
 
 document.getElementById('artikel').addEventListener('click', () => {
-    start(data, SELECTOR1, URL1);
+    checkExistence(SELECTOR1, URL1);
 });
 document.getElementById('artikel_mobile').addEventListener('click', () => {
-    start(data, SELECTOR2, URL2);
+    checkExistence(SELECTOR2, URL2);
 });
 document.getElementById('beipack').addEventListener('click', () => {
-    start(data, SELECTOR3, URL3);
+    checkExistence(SELECTOR3, URL3);
 });
 document.getElementById('beipack_mobile').addEventListener('click', () => {
-    start(data, SELECTOR4, URL4);
+    checkExistence(SELECTOR4, URL4);
 });
