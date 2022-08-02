@@ -28,8 +28,8 @@ function getData() {
         
         function readData() {                                       //reads the data
             let keywordsArray = reader.result.split('\r\n');        //splits the data into more human readable data
-            let tmpArray = [];                                      //creates a temporary array to work on
-            for (let i = 0; i < keywordsArray.length; i++) {
+            let tmpArray = [];                                  //creates a temporary array to work on
+            for (let i = 1; i < keywordsArray.length; i++) {
                 tmpArray.push(keywordsArray[i].split(";"));
             }
             globalThis.data = createObject(tmpArray);
@@ -41,7 +41,7 @@ function getData() {
 function createObject(data) {                                        //transforms data into an Object for better accessability
     let keyword = '';
     let keywordlist = {};
-    for (let i = 1; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
         indexList = [];
         for (let j = 0; j < data[i].length; j++) {
             if (keyword != data[i][j]) {
@@ -60,7 +60,6 @@ function createObject(data) {                                        //transform
     delete keywordlist[""];                                            //deletes the "" key/value pair
     return (keywordlist);
 }
-
 
 function createTable(data) {
     let body = document.querySelector('body');
